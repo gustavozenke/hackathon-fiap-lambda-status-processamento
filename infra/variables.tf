@@ -10,7 +10,7 @@ variable "function_role" {
 
 variable "handler" {
   type        = string
-  default     = "main.lambda_handler"
+  default     = "application.router.lambda_handler.lambda_handler"
 }
 
 variable "runtime" {
