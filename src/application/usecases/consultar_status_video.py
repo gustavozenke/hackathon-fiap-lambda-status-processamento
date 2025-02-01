@@ -4,4 +4,4 @@ class ConsultarStatusVideo:
 
     def execute(self, username, nome_video):
         video = self.video_repository.consultar_status_video(username, nome_video)
-        return {"video_id": video.video_id, "status": video.status}
+        return {"nome_video": video.nome_video, "status": video.status}
