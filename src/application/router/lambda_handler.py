@@ -1,7 +1,7 @@
 import json
 
-from src.application.service.video_service import VideoService
-from src.infraestructure.repositories.video_repository_impl import VideoRepositoryImpl
+from application.service.video_service import VideoService
+from infraestructure.repositories.video_repository_impl import VideoRepositoryImpl
 
 video_repository = VideoRepositoryImpl()
 video_service = VideoService(video_repository)

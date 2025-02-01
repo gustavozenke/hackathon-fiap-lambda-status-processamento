@@ -1,6 +1,6 @@
 from abc import abstractmethod, ABC
 
-from src.domain.entities.video import Video
+from domain.entities.video import Video
 
 
 class VideoRepository(ABC):

@@ -3,8 +3,8 @@ from typing import Optional
 
 import boto3
 
-from src.domain.entities.video import Video
-from src.domain.interfaces.video_repository import VideoRepository
+from domain.entities.video import Video
+from domain.interfaces.video_repository import VideoRepository
 
 
 class VideoRepositoryImpl(VideoRepository, ABC):

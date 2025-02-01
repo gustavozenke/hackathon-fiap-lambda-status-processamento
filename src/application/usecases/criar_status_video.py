@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from src.domain.entities.video import Video
+from domain.entities.video import Video
 
 
 class CriarStatusVideo:
