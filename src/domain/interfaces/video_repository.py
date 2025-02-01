@@ -9,5 +9,5 @@ class VideoRepository(ABC):
         pass
 
     @abstractmethod
-    def consultar_status_video(self, username: str) -> Video:
+    def consultar_status_video(self, nome_usuario: str) -> Video:
         pass

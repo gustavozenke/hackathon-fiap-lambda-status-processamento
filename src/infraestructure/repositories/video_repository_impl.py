@@ -15,16 +15,16 @@ class VideoRepositoryImpl(VideoRepository, ABC):
     def criar_status_video(self, video: Video) -> None:
         self.table.put_item(
             Item={
-                'username': video.username,
-                'status': video.status.name,
+                'nome_usuario': video.nome_usuario,
+                'status_processamento': video.status.name,
                 'data_hora_atualizacao_status': video.data_hora_atualizacao_status,
                 'nome_video': video.nome_video
             }
         )
 
-    def consultar_status_video(self, username: str) -> Optional[Video]:
-        response = self.table.get_item(Key={'username': username})
+    def consultar_status_video(self, nome_usuario: str) -> Optional[Video]:
+        response = self.table.get_item(Key={'nome_usuario': nome_usuario})
         item = response.get('Item')
         if item:
-            return Video(item['username'], item['status'], item['data_hora_atualizacao_status'],  item['nome_video'])
+            return Video(item['nome_usuario'], item['status'], item['data_hora_atualizacao_status'],  item['nome_video'])
         return None
