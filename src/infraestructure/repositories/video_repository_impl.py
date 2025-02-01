@@ -1,5 +1,4 @@
 from abc import ABC
-from typing import Optional
 
 import boto3
 
@@ -22,9 +21,9 @@ class VideoRepositoryImpl(VideoRepository, ABC):
             }
         )
 
-    def consultar_status_video(self, nome_usuario: str) -> Optional[Video]:
-        response = self.table.get_item(Key={'nome_usuario': nome_usuario})
-        item = response.get('Item')
-        if item:
-            return Video(item['nome_usuario'], item['status_processamento'], item['data_hora_inclusao'],  item['nome_video'])
-        return None
+    def consultar_status_video(self, nome_usuario: str):
+        response = self.table.query(
+            KeyConditionExpression="nome_usuario = :nome",
+            ExpressionAttributeValues={":nome": nome_usuario}
+        )
+        return response.get('Items', [])

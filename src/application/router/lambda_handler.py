@@ -23,7 +23,7 @@ def lambda_handler(event, context):
             return {'statusCode': 200, 'body': json.dumps(result)}
 
         elif http_method == 'GET' and path == '/videos/{nome_video}':
-            result = video_service.consultar_status_video(nome_video)
+            result = video_service.consultar_status_video(nome_usuario)
             return {'statusCode': 200, 'body': json.dumps(result)}
 
         return {'statusCode': 404, 'body': json.dumps({'message': 'Route not found'})}
