@@ -1,6 +1,6 @@
-from src.application.usecases.atualizar_status_video import AtualizarStatusVideo
-from src.application.usecases.consultar_status_video import ConsultarStatusVideo
-from src.application.usecases.criar_status_video import CriarStatusVideo
+from application.usecases.atualizar_status_video import AtualizarStatusVideo
+from application.usecases.consultar_status_video import ConsultarStatusVideo
+from application.usecases.criar_status_video import CriarStatusVideo
 
 
 class VideoService:
