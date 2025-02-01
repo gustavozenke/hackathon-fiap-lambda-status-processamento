@@ -17,7 +17,7 @@ class VideoRepositoryImpl(VideoRepository, ABC):
             Item={
                 'nome_usuario': video.nome_usuario,
                 'status_processamento': video.status.name,
-                'data_hora_atualizacao_status': video.data_hora_atualizacao_status,
+                'data_hora_inclusao': video.data_hora_atualizacao_status,
                 'nome_video': video.nome_video
             }
         )
@@ -26,5 +26,5 @@ class VideoRepositoryImpl(VideoRepository, ABC):
         response = self.table.get_item(Key={'nome_usuario': nome_usuario})
         item = response.get('Item')
         if item:
-            return Video(item['nome_usuario'], item['status'], item['data_hora_atualizacao_status'],  item['nome_video'])
+            return Video(item['nome_usuario'], item['status_processamento'], item['data_hora_inclusao'],  item['nome_video'])
         return None
