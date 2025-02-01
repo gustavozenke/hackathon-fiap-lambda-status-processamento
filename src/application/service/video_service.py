@@ -7,8 +7,8 @@ class VideoService:
         self.create_video_use_case = CriarStatusVideo(video_repository)
         self.get_video_status_use_case = ConsultarStatusVideo(video_repository)
 
-    def criar_status_video(self, username, status_processamento, nome_video):
-        return self.create_video_use_case.execute(username, status_processamento, nome_video)
+    def criar_status_video(self, nome_usuario, status_processamento, nome_video):
+        return self.create_video_use_case.execute(nome_usuario, status_processamento, nome_video)
 
-    def consultar_status_video(self, username):
-        return self.get_video_status_use_case.execute(username)
+    def consultar_status_video(self, nome_usuario):
+        return self.get_video_status_use_case.execute(nome_usuario)

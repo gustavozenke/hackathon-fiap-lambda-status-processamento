@@ -14,12 +14,12 @@ def lambda_handler(event, context):
         http_method = event['httpMethod']
         path = event['resource']
         body = event['body']
-        username = body['username']
+        nome_usuario = body['nome_usuario']
         nome_video = body['nome_video']
         status_processamento = StatusProcessamento.converter_para_enum(body['status_processamento'])
 
         if http_method == 'POST' and path == '/videos':
-            result = video_service.criar_status_video(username, status_processamento, nome_video)
+            result = video_service.criar_status_video(nome_usuario, status_processamento, nome_video)
             return {'statusCode': 200, 'body': json.dumps(result)}
 
         elif http_method == 'GET' and path == '/videos/{nome_video}':
@@ -36,7 +36,7 @@ if __name__ == '__main__':
         "httpMethod": "POST",
         "resource": "/videos",
         "body": {
-            "username": "usuario teste",
+            "nome_usuario": "usuario teste",
             "nome_video": "video teste",
             "status_processamento": "PROCESSAMENTO_NAO_INICIADO"
         }
