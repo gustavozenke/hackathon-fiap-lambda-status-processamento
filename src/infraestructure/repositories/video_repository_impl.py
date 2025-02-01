@@ -10,7 +10,7 @@ from domain.interfaces.video_repository import VideoRepository
 class VideoRepositoryImpl(VideoRepository, ABC):
     def __init__(self):
         self.dynamodb = boto3.resource('dynamodb')
-        self.table = self.dynamodb.Table('status-processamento')
+        self.table = self.dynamodb.Table('status_processamento')
 
     def criar_status_video(self, video: Video) -> None:
         self.table.put_item(
