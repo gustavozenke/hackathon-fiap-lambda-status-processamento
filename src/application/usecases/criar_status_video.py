@@ -13,5 +13,5 @@ class CriarStatusVideo:
         return {
             "nome_video": nome_video,
             "nome_usuario": nome_usuario,
-            "status": video.status
+            "status": video.status.name
         }
