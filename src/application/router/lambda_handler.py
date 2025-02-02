@@ -2,10 +2,10 @@ import json
 
 from application.service.video_service import VideoService
 from domain.enums.status_processamento import StatusProcessamento
-from infraestructure.repositories.video_repository_impl import VideoRepositoryImpl
+from infraestructure.repositories.status_processamento_repository_impl import StatusProcessamentoRepositoryImpl
 
-video_repository = VideoRepositoryImpl()
-video_service = VideoService(video_repository)
+status_processamento_repository = StatusProcessamentoRepositoryImpl()
+video_service = VideoService(status_processamento_repository)
 
 
 def lambda_handler(event, context):
