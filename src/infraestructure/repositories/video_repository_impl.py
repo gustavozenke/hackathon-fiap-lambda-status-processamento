@@ -16,7 +16,7 @@ class VideoRepositoryImpl(VideoRepository, ABC):
             Item={
                 'nome_usuario': video.nome_usuario,
                 'status_processamento': video.status.name,
-                'data_hora_inclusao': video.data_hora_atualizacao_status,
+                'data_hora_inclusao': video.data_hora_inclusao,
                 'nome_video': video.nome_video
             }
         )
