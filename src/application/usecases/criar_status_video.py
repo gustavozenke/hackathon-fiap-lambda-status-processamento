@@ -8,10 +8,12 @@ class CriarStatusVideo:
         self.video_repository = video_repository
 
     def execute(self, nome_usuario, status_processamento, nome_video):
-        video = Video(nome_usuario, status_processamento, str(datetime.now()), nome_video)
+        data_hora_inclusao = str(datetime.now())
+        video = Video(nome_usuario, status_processamento, data_hora_inclusao, nome_video)
         self.video_repository.criar_status_video(video)
         return {
-            "nome_video": nome_video,
             "nome_usuario": nome_usuario,
-            "status": video.status.name
+            "data_hora_inclusao": data_hora_inclusao,
+            "nome_video": nome_video,
+            "status_processamento": video.status.name
         }
