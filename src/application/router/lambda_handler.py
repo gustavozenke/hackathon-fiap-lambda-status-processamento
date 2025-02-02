@@ -10,9 +10,9 @@ video_service = VideoService(video_repository)
 
 def lambda_handler(event, context):
     if event.get('Records', None):
-        sqs_controller(event)
+        return sqs_controller(event)
     elif event.get('resource', None):
-        gateway_controller(event)
+        return gateway_controller(event)
 
 
 def gateway_controller(event):
