@@ -3,7 +3,7 @@ from abc import abstractmethod, ABC
 from domain.entities.video import Video
 
 
-class VideoRepository(ABC):
+class StatusProcessamentoRepository(ABC):
     @abstractmethod
     def criar_status_video(self, video: Video) -> None:
         pass
