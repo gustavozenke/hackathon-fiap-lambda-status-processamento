@@ -3,10 +3,10 @@ from abc import ABC
 import boto3
 
 from domain.entities.video import Video
-from domain.interfaces.video_repository import VideoRepository
+from domain.interfaces.status_processamento_repository import StatusProcessamentoRepository
 
 
-class StatusProcessamentoRepositoryImpl(VideoRepository, ABC):
+class StatusProcessamentoRepositoryImpl(StatusProcessamentoRepository, ABC):
     def __init__(self):
         self.dynamodb = boto3.resource('dynamodb')
         self.table = self.dynamodb.Table('status_processamento')
