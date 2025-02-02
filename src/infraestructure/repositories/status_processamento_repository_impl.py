@@ -6,7 +6,7 @@ from domain.entities.video import Video
 from domain.interfaces.video_repository import VideoRepository
 
 
-class VideoRepositoryImpl(VideoRepository, ABC):
+class StatusProcessamentoRepositoryImpl(VideoRepository, ABC):
     def __init__(self):
         self.dynamodb = boto3.resource('dynamodb')
         self.table = self.dynamodb.Table('status_processamento')
