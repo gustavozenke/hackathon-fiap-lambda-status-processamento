@@ -3,6 +3,7 @@ import json
 from application.service.video_service import VideoService
 from domain.enums.status_processamento import StatusProcessamento
 from infraestructure.repositories.status_processamento_repository_impl import StatusProcessamentoRepositoryImpl
+from utils.sqs_event import event
 
 status_processamento_repository = StatusProcessamentoRepositoryImpl()
 video_service = VideoService(status_processamento_repository)
@@ -31,10 +32,11 @@ def sqs_controller(event):
     body = json.loads(event['Records'][0]['body'])
     nome_usuario = body['nome_usuario']
     nome_video = body['nome_video']
+    url_video = body['url_video']
     status_processamento = StatusProcessamento.converter_para_enum(body['status_processamento'])
-    result = video_service.criar_status_video(nome_usuario, status_processamento, nome_video)
+    result = video_service.criar_status_video(nome_usuario, status_processamento, nome_video, url_video)
     return {'statusCode': 200, 'body': json.dumps(result)}
 
 
-# if __name__ == '__main__':
-#     lambda_handler(event, None)
+if __name__ == '__main__':
+    lambda_handler(event, None)
