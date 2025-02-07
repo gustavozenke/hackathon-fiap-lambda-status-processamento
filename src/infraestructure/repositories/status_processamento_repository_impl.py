@@ -17,7 +17,8 @@ class StatusProcessamentoRepositoryImpl(StatusProcessamentoRepository, ABC):
                 'nome_usuario': video.nome_usuario,
                 'status_processamento': video.status.name,
                 'data_hora_inclusao': video.data_hora_inclusao,
-                'nome_video': video.nome_video
+                'nome_video': video.nome_video,
+                'url_video': video.url_video
             }
         )
 
