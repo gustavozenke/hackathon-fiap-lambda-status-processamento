@@ -1,12 +1,14 @@
 import json
+from datetime import datetime
 
-from application.service.video_service import VideoService
+from domain.entities.video import Video
 from domain.enums.status_processamento import StatusProcessamento
-from infraestructure.repositories.status_processamento_repository_impl import StatusProcessamentoRepositoryImpl
-from utils.sqs_event import event
+from application.service.status_processamento_service import StatusProcessamentoService
+from infraestructure.repositories.status_processamento_repository import StatusProcessamentoRepository
+from utils.gateway_event import event
 
-status_processamento_repository = StatusProcessamentoRepositoryImpl()
-video_service = VideoService(status_processamento_repository)
+status_processamento_repository = StatusProcessamentoRepository()
+service = StatusProcessamentoService(status_processamento_repository)
 
 
 def lambda_handler(event, context):
@@ -22,7 +24,7 @@ def gateway_controller(event):
     nome_usuario = event['path'].split('/')[2]
 
     if http_method == 'GET' and path == 'status-processamento':
-        result = video_service.consultar_status_video(nome_usuario)
+        result = service.consultar_eventos_usuario(nome_usuario)
         return {'statusCode': 200, 'body': json.dumps(result)}
 
     return {'statusCode': 404, 'body': json.dumps({'message': 'Route not found'})}
@@ -34,8 +36,11 @@ def sqs_controller(event):
     nome_video = body['nome_video']
     url_video = body['url_video']
     status_processamento = StatusProcessamento.converter_para_enum(body['status_processamento'])
-    result = video_service.criar_status_video(nome_usuario, status_processamento, nome_video, url_video)
-    return {'statusCode': 200, 'body': json.dumps(result)}
+
+    video = Video(nome_usuario, status_processamento, str(datetime.now()), nome_video, url_video)
+
+    service.incluir_evento_processamento(video)
+    return {'statusCode': 200, 'body': "Success"}
 
 
 if __name__ == '__main__':
