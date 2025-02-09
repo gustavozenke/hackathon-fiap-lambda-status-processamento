@@ -2,7 +2,7 @@ import json
 import os
 import sys
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 
 import boto3
 
@@ -14,9 +14,10 @@ from src.application.entrypoint.lambda_handler import lambda_handler, gateway_co
 
 class TestLambdaFunctions(unittest.TestCase):
 
+    @patch.object(boto3, 'resource')
     @patch.object(StatusProcessamentoService, 'incluir_evento_processamento')
     @patch('application.entrypoint.lambda_handler.sqs_controller')
-    def test_lambda_handler_sqs_event(self, mock_sqs, mock_processaamento):
+    def test_lambda_handler_sqs_event(self, mock_sqs, mock_processaamento, mock_boto):
         # Arrange
         event = {
             'Records': [
@@ -31,6 +32,7 @@ class TestLambdaFunctions(unittest.TestCase):
             ]
         }
         mock_processaamento.return_value = None
+        mock_boto.return_value = Mock()
         mock_sqs.return_value = {'statusCode': 200, 'body': 'Success'}
 
         # Act
@@ -39,15 +41,17 @@ class TestLambdaFunctions(unittest.TestCase):
         # Assert
         self.assertEqual(result, {'statusCode': 200, 'body': 'Success'})
 
+    @patch.object(boto3, 'resource')
     @patch.object(StatusProcessamentoService, 'consultar_eventos_usuario')
     @patch('application.entrypoint.lambda_handler.gateway_controller')
-    def test_lambda_handler_gateway_event(self, mock_gateway, mock_processamento):
+    def test_lambda_handler_gateway_event(self, mock_gateway, mock_processamento, mock_boto):
         # Arrange
         event = {
             'httpMethod': 'GET',
             'path': '/status-processamento/user1'
         }
         mock_processamento.return_value = None
+        mock_boto.return_value = Mock()
         mock_gateway.return_value = {'statusCode': 200, 'body': json.dumps({'status': 'ok'})}
 
         # Act
@@ -56,14 +60,16 @@ class TestLambdaFunctions(unittest.TestCase):
         # Asserts
         self.assertEqual(result, None)
 
+    @patch.object(boto3, 'resource')
     @patch.object(StatusProcessamentoService, 'consultar_eventos_usuario')
-    def test_gateway_controller_get_status(self, mock_processamento):
+    def test_gateway_controller_get_status(self, mock_processamento, mock_boto):
         # Arrange
         event = {
             'httpMethod': 'GET',
             'path': '/status-processamento/user1'
         }
         mock_processamento.return_value = {'status': 'ok'}
+        mock_boto.return_value = Mock()
 
         # Act
         result = gateway_controller(event)
@@ -71,14 +77,14 @@ class TestLambdaFunctions(unittest.TestCase):
         # Asserts
         self.assertEqual(result, {'statusCode': 200, 'body': json.dumps({'status': 'ok'})})
 
-    @patch.object(boto3, 'client')
-    def test_gateway_controller_rota_invalida(self, boto_mock):
+    @patch.object(boto3, 'resource')
+    def test_gateway_controller_rota_invalida(self, mock_boto):
         # Arrange
         event = {
             'httpMethod': 'POST',
             'path': '/status-processamento/user1'
         }
-        boto_mock.return_value = None
+        mock_boto.return_value = Mock()
 
         # Act
         result = gateway_controller(event)
@@ -86,8 +92,9 @@ class TestLambdaFunctions(unittest.TestCase):
         # Assert
         self.assertEqual(result, {'statusCode': 404, 'body': json.dumps({'message': 'Rota nao encontrada'})})
 
+    @patch.object(boto3, 'resource')
     @patch.object(StatusProcessamentoService, 'incluir_evento_processamento')
-    def test_sqs_controller(self, mock_processamento):
+    def test_sqs_controller(self, mock_processamento, mock_boto):
         # Arrange
         event = {
             'Records': [
@@ -102,6 +109,7 @@ class TestLambdaFunctions(unittest.TestCase):
             ]
         }
         mock_processamento.return_value = None
+        mock_boto.return_value = Mock()
 
         # Act
         result = sqs_controller(event)
