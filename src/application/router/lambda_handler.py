@@ -1,4 +1,5 @@
 import json
+import logging
 from datetime import datetime
 
 import pytz
@@ -9,13 +10,16 @@ from application.service.status_processamento_service import StatusProcessamento
 from infraestructure.repositories.status_processamento_repository_impl import StatusProcessamentoRepositoryImpl
 from utils.gateway_event import event
 
+logging.getLogger().setLevel(logging.INFO)
+logger = logging.getLogger(__name__)
+tz_br = pytz.timezone("America/Sao_Paulo")
+
 status_processamento_repository = StatusProcessamentoRepositoryImpl()
 service = StatusProcessamentoService(status_processamento_repository)
 
-tz_br = pytz.timezone("America/Sao_Paulo")
-
 
 def lambda_handler(event, context):
+    logger.info(f"Mensagem recebida={event}")
     if event.get('Records', None):
         return sqs_controller(event)
     elif event.get('resource', None):
