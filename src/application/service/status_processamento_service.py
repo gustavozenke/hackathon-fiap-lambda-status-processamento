@@ -13,7 +13,7 @@ class StatusProcessamentoService(StatusProcessamento):
         self.repository = repository
 
     def incluir_evento_processamento(self, video: Video):
-        logger.info(f"Incluindo evento de processamento para o video={video}")
+        logger.info(f"Incluindo evento de processamento para o video={video.__dict__}")
 
         item = {
             'nome_usuario': video.nome_usuario,
