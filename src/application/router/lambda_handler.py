@@ -1,6 +1,8 @@
 import json
 from datetime import datetime
 
+import pytz
+
 from domain.entities.video import Video
 from domain.enums.status_processamento import StatusProcessamento
 from application.service.status_processamento_service import StatusProcessamentoService
@@ -9,6 +11,8 @@ from utils.gateway_event import event
 
 status_processamento_repository = StatusProcessamentoRepositoryImpl()
 service = StatusProcessamentoService(status_processamento_repository)
+
+tz_br = pytz.timezone("America/Sao_Paulo")
 
 
 def lambda_handler(event, context):
@@ -35,9 +39,10 @@ def sqs_controller(event):
     nome_usuario = body['nome_usuario']
     nome_video = body['nome_video']
     url_video = body['url_video']
+    data_hora_inclusao = str(datetime.now().astimezone(tz_br))
     status_processamento = StatusProcessamento.converter_para_enum(body['status_processamento'])
 
-    video = Video(nome_usuario, status_processamento, str(datetime.now()), nome_video, url_video)
+    video = Video(nome_usuario, status_processamento,data_hora_inclusao, nome_video, url_video)
 
     service.incluir_evento_processamento(video)
     return {'statusCode': 200, 'body': "Success"}
