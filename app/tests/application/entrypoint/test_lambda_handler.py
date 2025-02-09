@@ -14,10 +14,8 @@ from src.application.entrypoint.lambda_handler import lambda_handler, gateway_co
 
 class TestLambdaFunctions(unittest.TestCase):
 
-    @patch.object(boto3, 'resource')
     @patch.object(StatusProcessamentoService, 'incluir_evento_processamento')
-    @patch('application.entrypoint.lambda_handler.sqs_controller')
-    def test_lambda_handler_sqs_event(self, mock_sqs, mock_processaamento, mock_boto):
+    def test_lambda_handler_sqs_event(self, mock_processaamento):
         # Arrange
         event = {
             'Records': [
@@ -32,8 +30,6 @@ class TestLambdaFunctions(unittest.TestCase):
             ]
         }
         mock_processaamento.return_value = None
-        mock_boto.return_value = Mock()
-        mock_sqs.return_value = {'statusCode': 200, 'body': 'Success'}
 
         # Act
         result = lambda_handler(event, None)
@@ -60,16 +56,14 @@ class TestLambdaFunctions(unittest.TestCase):
         # Asserts
         self.assertEqual(result, None)
 
-    @patch.object(boto3, 'resource')
     @patch.object(StatusProcessamentoService, 'consultar_eventos_usuario')
-    def test_gateway_controller_get_status(self, mock_processamento, mock_boto):
+    def test_gateway_controller_get_status(self, mock_processamento):
         # Arrange
         event = {
             'httpMethod': 'GET',
             'path': '/status-processamento/user1'
         }
         mock_processamento.return_value = {'status': 'ok'}
-        mock_boto.return_value = Mock()
 
         # Act
         result = gateway_controller(event)
