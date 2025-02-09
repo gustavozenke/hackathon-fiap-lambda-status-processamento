@@ -14,8 +14,6 @@ logging.getLogger().setLevel(logging.INFO)
 logger = logging.getLogger(__name__)
 tz_br = pytz.timezone("America/Sao_Paulo")
 
-status_processamento_repository = StatusProcessamentoRepositoryImpl()
-service = StatusProcessamentoService(status_processamento_repository)
 
 
 def lambda_handler(event, context):
@@ -27,6 +25,9 @@ def lambda_handler(event, context):
 
 
 def gateway_controller(event):
+    status_processamento_repository = StatusProcessamentoRepositoryImpl()
+    service = StatusProcessamentoService(status_processamento_repository)
+
     http_method = event['httpMethod']
     path = event['path'].split('/')[1]
     nome_usuario = event['path'].split('/')[2]
@@ -39,6 +40,9 @@ def gateway_controller(event):
 
 
 def sqs_controller(event):
+    status_processamento_repository = StatusProcessamentoRepositoryImpl()
+    service = StatusProcessamentoService(status_processamento_repository)
+
     body = json.loads(event['Records'][0]['body'])
     nome_usuario = body['nome_usuario']
     nome_video = body['nome_video']
