@@ -4,10 +4,10 @@ from datetime import datetime
 from domain.entities.video import Video
 from domain.enums.status_processamento import StatusProcessamento
 from application.service.status_processamento_service import StatusProcessamentoService
-from infraestructure.repositories.status_processamento_repository import StatusProcessamentoRepository
+from infraestructure.repositories.status_processamento_repository_impl import StatusProcessamentoRepositoryImpl
 from utils.gateway_event import event
 
-status_processamento_repository = StatusProcessamentoRepository()
+status_processamento_repository = StatusProcessamentoRepositoryImpl()
 service = StatusProcessamentoService(status_processamento_repository)
 
 
@@ -27,7 +27,7 @@ def gateway_controller(event):
         result = service.consultar_eventos_usuario(nome_usuario)
         return {'statusCode': 200, 'body': json.dumps(result)}
 
-    return {'statusCode': 404, 'body': json.dumps({'message': 'Route not found'})}
+    return {'statusCode': 404, 'body': json.dumps({'message': 'Rota nao encontrada'})}
 
 
 def sqs_controller(event):

@@ -1,11 +1,9 @@
 from abc import abstractmethod, ABC
 
-from domain.entities.video import Video
 
-
-class StatusProcessamentoRepositoryInterface(ABC):
+class StatusProcessamentoRepository(ABC):
     @abstractmethod
-    def put_item(self, video: Video) -> None:
+    def put_item(self, item: dict):
         pass
 
     @abstractmethod

@@ -3,7 +3,7 @@ from abc import abstractmethod, ABC
 from domain.entities.video import Video
 
 
-class StatusProcessamentoServiceInterface(ABC):
+class StatusProcessamento(ABC):
     @abstractmethod
     def incluir_evento_processamento(self, video: Video):
         pass
