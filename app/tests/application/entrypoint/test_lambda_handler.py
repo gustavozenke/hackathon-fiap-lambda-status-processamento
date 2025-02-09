@@ -71,12 +71,14 @@ class TestLambdaFunctions(unittest.TestCase):
         # Asserts
         self.assertEqual(result, {'statusCode': 200, 'body': json.dumps({'status': 'ok'})})
 
-    def test_gateway_controller_rota_invalida(self):
+    @patch.object(StatusProcessamentoRepositoryImpl, '__init__')
+    def test_gateway_controller_rota_invalida(self, mock_repository):
         # Arrange
         event = {
             'httpMethod': 'POST',
             'path': '/status-processamento/user1'
         }
+        mock_repository.return_value = None
 
         # Act
         result = gateway_controller(event)
