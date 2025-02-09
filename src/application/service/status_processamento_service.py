@@ -4,7 +4,7 @@ from domain.entities.video import Video
 from domain.interfaces.status_processamento import StatusProcessamento
 from domain.interfaces.status_processamento_repository import StatusProcessamentoRepository
 
-logging.basicConfig(level=logging.INFO)
+logging.getLogger().setLevel(logging.INFO)
 logger = logging.getLogger(__name__)
 
 
