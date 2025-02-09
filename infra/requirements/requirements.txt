@@ -2,3 +2,5 @@ boto3
 botocore
 urllib3
 pytz
+pytest
+pytest-cov
