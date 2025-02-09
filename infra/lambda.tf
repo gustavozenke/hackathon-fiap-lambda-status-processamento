@@ -24,4 +24,4 @@ resource "aws_lambda_permission" "allow_api_gateway_status_processamento" {
   function_name = var.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = data.aws_api_gateway_rest_api.apigateway_rest_api.arn
-}ó
+}
