@@ -14,8 +14,9 @@ from src.application.entrypoint.lambda_handler import lambda_handler, gateway_co
 
 class TestLambdaFunctions(unittest.TestCase):
 
+    @patch.object(boto3, 'resource')
     @patch.object(StatusProcessamentoService, 'incluir_evento_processamento')
-    def test_lambda_handler_sqs_event(self, mock_processaamento):
+    def test_lambda_handler_sqs_event(self, mock_processaamento, mock_boto):
         # Arrange
         event = {
             'Records': [
@@ -29,6 +30,7 @@ class TestLambdaFunctions(unittest.TestCase):
                 }
             ]
         }
+        mock_boto.return_value = Mock()
         mock_processaamento.return_value = None
 
         # Act
