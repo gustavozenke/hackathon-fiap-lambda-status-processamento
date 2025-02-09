@@ -46,7 +46,7 @@ def sqs_controller(event):
     data_hora_inclusao = str(datetime.now().astimezone(tz_br))
     status_processamento = StatusProcessamento.converter_para_enum(body['status_processamento'])
 
-    video = Video(nome_usuario, status_processamento,data_hora_inclusao, nome_video, url_video)
+    video = Video(nome_usuario, status_processamento, data_hora_inclusao, nome_video, url_video)
 
     service.incluir_evento_processamento(video)
     return {'statusCode': 200, 'body': "Success"}
